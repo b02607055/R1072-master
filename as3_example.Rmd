@@ -1,0 +1,69 @@
+---
+title: "AS3_example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<br>
+
+# Practice I_1
+plotting matleave_95 != 5 but matleve_13 == 5
+<p>
+首先找出95年不是5的，再從中找出13年是5的
+<br>
+<br>
+
+```{r}
+library(readxl)
+options(stringsAsFactors = FALSE)
+ldata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
+matleave <- ldata[ , c(3, 6:24)] 
+matleave[is.na(matleave)] <- 0
+
+m1 <- matleave[matleave$matleave_95 != 5, ]
+m2 <- m1[m1$'matleave_13' == 5,]
+par(mfrow=c(4,5), mai= c(0.2, 0.2, 0.2, 0.2))
+for(i in 1:16){
+  barplot(unlist(m2[i, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+    title(m2[i,1], line = -4, cex.main=2)
+}
+```
+
+# Practice I_2
+plotting for matleave_13 == 4
+<p>
+分成一開始（95年）不是4之後13年是4，以及13、95年都是4的，這邊會有兩張圖
+<br>
+<br>
+
+
+```{r}
+m3 <- matleave[matleave$matleave_13 == 4, ]
+m3_left <- m3[m3$matleave_95 == 4, ]
+
+
+#先畫m3_left，
+par(mfrow=c(4,5), mai= c(0.2, 0.2, 0.2, 0.2))
+for(i in 1:5){
+  barplot(unlist(m3_left[i, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+    title(m3_left[i,1], line = -4, cex.main=2)
+}
+
+
+```
+```{r}
+#m3_right，代表的是13年是4，但95年不是4
+
+m3_right <- m3[m3$matleave_95 != 4, ]
+par(mfrow=c(4,5), mai= c(0.2, 0.2, 0.2, 0.2))
+for(i in 1:13){
+  barplot(unlist(m3_right[i, -1]), ylim=c(0, 5), space=0, border=NA, xaxt="n", yaxt="n")
+    title(m3_right[i,1], line = -4, cex.main=2)
+}
+```
+
+
+
+
