@@ -8,7 +8,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 <br>
 
-# Practice I_1
+本週的作業有兩個部分，第一個部分是plotting的練習，第二部分是dplyr的。
+
+
+# Practice I_1 Plotting
 plotting matleave_95 != 5 but matleve_13 == 5
 <p>
 首先找出95年不是5的，再從中找出13年是5的
@@ -31,7 +34,7 @@ for(i in 1:nrow(m2)){
 }
 ```
 
-# Practice I_2
+# Practice I_2 Plotting
 plotting for matleave_13 == 4
 <p>
 分成一開始（95年）不是4之後13年是4，以及13、95年都是4的，這邊會有兩張圖
@@ -72,6 +75,75 @@ for(i in 1:nrow(m3_right)){
 
 <p>
 <br>
+# Practice II selecting and filtering by dplyr I
+用dplyr寫法，把下列程式碼改寫一遍，最後也是會有一張圖的唷。
+<p>
+（寫不出來不要不交，盡可能留下努力過的足跡）
+<p>
+<br>
+
+```{r}
+m55 <- matleave <- ldata[ , c(3, 6:24)] %>%
+    replace(is.na(.), 0) %>%
+    filter(matleave_13 == 5) %>%
+    filter(matleave_95 == 5)
+```
+
+```{r}
+library(dplyr)
+ldata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
+# select columns by index
+# matleave <- ldata[ , c(3, 6:24)]
+
+# select all NA cells and assign 0 to them
+# matleave[is.na(matleave)] <- 0
+
+# filter rows by condition
+# m5 <- matleave[matleave$'matleave_13' == 5, ]
+
+# filter rows by condition
+# m55<- m5[m5$'matleave_95' == 5,]
+
+# plot
+
+par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
+for (i in c(1:nrow(m55))){
+	barplot(unlist(m55[i,-1]),
+			border=NA, space=0,xaxt="n", yaxt="n", ylim = c(0,5))
+	title(m55[i,1], line = -4, cex.main=3)
+}
+```
+
+```{r}
+library(dplyr)
+ldata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
+# select columns by index
+# matleave <- ldata[ , c(3, 6:24)]
+
+# select all NA cells and assign 0 to them
+# matleave[is.na(matleave)] <- 0
+
+# filter rows by condition
+# m5 <- matleave[matleave$'matleave_13' == 5, ]
+
+# filter rows by condition
+# m55<- m5[m5$'matleave_95' == 5,]
+# plot
+
+m55 <- matleave <- ldata[ , c(3, 6:24)] %>%
+    replace(is.na(.), 0) %>%
+    filter(matleave_13 == 5) %>%
+    filter(matleave_95 == 5)
+
+par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
+for (i in c(1:nrow(m55))){
+	barplot(unlist(m55[i,-1]),
+			border=NA, space=0,xaxt="n", yaxt="n", ylim = c(0,5))
+	title(m55[i,1], line = -4, cex.main=3)
+}
+```
+
+
 <br>
 
 
