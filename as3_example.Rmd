@@ -1,5 +1,5 @@
 ---
-title: "AS3_example"
+title: "AS#3_example"
 output: html_document
 ---
 
@@ -75,31 +75,36 @@ for(i in 1:nrow(m3_right)){
 ```
 
 # Practice II selecting and filtering by dplyr I
-用dplyr寫法，把下列程式碼改寫一遍。
-<p>寫不出來不要不交，盡可能留下足跡。
+用dplyr寫法，把下列註解（#）起來的程式碼改寫一遍。
+<p>畫圖的步驟程式碼是一樣的，所以如果有成功用dplyr改寫，圖也是可以畫出來的。
+<p>*寫不出來不要不交，盡可能留下努力過的足跡。
 <p>
-<br>
-```{r message = FALSE}
+```{r echo=FALSE, message=FALSE}
 library(dplyr)
 ldata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
-# select columns by index
-# matleave <- ldata[ , c(3, 6:24)]
-
-# select all NA cells and assign 0 to them
-# matleave[is.na(matleave)] <- 0
-
-# filter rows by condition
-# m5 <- matleave[matleave$'matleave_13' == 5, ]
-
-# filter rows by condition
-# m55<- m5[m5$'matleave_95' == 5,]
-# plot
-
 m55 <- ldata[ , c(3, 6:24)] %>%
     replace(is.na(.), 0) %>%
     filter(matleave_13 == 5) %>%
     filter(matleave_95 == 5)
+```
 
+
+```{r message = FALSE}
+library(dplyr)
+ldata <- read_excel("data/WORLD-MACHE_Gender_6.8.15.xls", "Sheet1", col_names=T)
+# select columns by index
+#matleave <- ldata[ , c(3, 6:24)]
+
+# select all NA cells and assign 0 to them
+#matleave[is.na(matleave)] <- 0
+
+# filter rows by condition
+#m5 <- matleave[matleave$'matleave_13' == 5, ]
+
+# filter rows by condition
+#m55<- m5[m5$'matleave_95' == 5,]
+
+# plot
 par(mfrow=c(4,6), mai= c(0.2, 0.2, 0.2, 0.2))
 for (i in c(1:nrow(m55))){
 	barplot(unlist(m55[i,-1]),
